@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardiac Cycle & Heart Failure Study Guide - Interactive Learning</title>
+    <meta name="description" content="Interactive study guide for understanding the cardiac cycle and heart failure with flashcards, quizzes, and visual aids">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Skip to main content link for keyboard users */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #000;
+            color: #fff;
+            padding: 8px;
+            text-decoration: none;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #c0392b 0%, #8e2a1f 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+        }
+
+        .progress-container {
+            margin-top: 20px;
+        }
+
+        .progress-label {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: #27ae60;
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            role: tablist;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            border: 2px solid transparent;
+            background: #ecf0f1;
+            color: #2c3e50;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #34495e;
+        }
+
+        .tab-btn:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        .tab-btn[aria-selected="true"] {
+            background: linear-gradient(135deg, #c0392b 0%, #8e2a1f 100%);
+            color: white;
+            border-color: #8e2a1f;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content[aria-hidden="false"] {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #c0392b;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .section h3 {
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section p, .section ul, .section ol {
+            color: #2c3e50;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .section ul, .section ol {
+            margin-left: 25px;
+        }
+
+        .section li {
+            margin-bottom: 10px;
+        }
+
+        .analogy-box {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #f39c12;
+        }
+
+        .analogy-box strong {
+            color: #7d5a0a;
+            font-size: 1.1em;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .flashcard {
+            background: white;
+            border: 2px solid #bdc3c7;
+            border-radius: 15px;
+            padding: 30px;
+            min-height: 200px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .flashcard:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        .flashcard[aria-expanded="true"] .card-front {
+            display: none;
+        }
+
+        .flashcard[aria-expanded="false"] .card-back {
+            display: none;
+        }
+
+        .card-front, .card-back {
+            transition: opacity 0.3s ease;
+        }
+
+        .card-back {
+            width: 100%;
+        }
+
+        .flashcard h3 {
+            color: #c0392b;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            color: #2c3e50;
+        }
+
+        .option:hover {
+            background: #d5dbdb;
+            transform: translateX(5px);
+        }
+
+        .option:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        .option[aria-checked="true"] {
+            border-color: #3498db;
+            background: #ebf5fb;
+        }
+
+        .option.correct {
+            border-color: #27ae60;
+            background: #d5f4e6;
+            color: #1e7e34;
+        }
+
+        .option.incorrect {
+            border-color: #c0392b;
+            background: #fadbd8;
+            color: #721c24;
+        }
+
+        .option.correct::before {
+            content: "✓ ";
+            font-weight: bold;
+        }
+
+        .option.incorrect::before {
+            content: "✗ ";
+            font-weight: bold;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: 2px solid #2980b9;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .submit-btn:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 4px;
+        }
+
+        .submit-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            border-color: #7f8c8d;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .result.pass {
+            background: #d5f4e6;
+            color: #1e7e34;
+            border: 2px solid #27ae60;
+        }
+
+        .result.fail {
+            background: #fadbd8;
+            color: #721c24;
+            border: 2px solid #c0392b;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table caption {
+            font-size: 1.2em;
+            font-weight: 600;
+            padding: 15px;
+            text-align: left;
+            color: #2c3e50;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #c0392b 0%, #8e2a1f 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .interactive-heart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .heart-animation {
+            width: 150px;
+            height: 150px;
+            background: #c0392b;
+            position: relative;
+            transform: rotate(-45deg);
+            animation: heartbeat 1.5s ease infinite;
+        }
+
+        .heart-animation::before,
+        .heart-animation::after {
+            content: "";
+            width: 150px;
+            height: 150px;
+            background: #c0392b;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .heart-animation::before {
+            top: -75px;
+            left: 0;
+        }
+
+        .heart-animation::after {
+            left: 75px;
+            top: 0;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: rotate(-45deg) scale(1); }
+            25% { transform: rotate(-45deg) scale(1.1); }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .phase-indicator {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #c0392b;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .tab-btn {
+                min-width: 100%;
+            }
+            
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .tab-btn {
+                border: 3px solid currentColor;
+            }
+            
+            .option {
+                border: 2px solid currentColor;
+            }
+        }
+
+        /* Focus visible for better keyboard navigation */
+        :focus-visible {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="container">
+        <header class="header">
+            <h1>💓 Cardiac Cycle & Heart Failure</h1>
+            <p>Interactive Study Guide | Human Anatomy & Physiology</p>
+            <div class="progress-container">
+                <div class="progress-label" id="progressLabel">Progress: 25% complete (1 of 4 sections visited)</div>
+                <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" aria-labelledby="progressLabel">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </header>
+
+        <main id="main-content" class="content">
+            <nav aria-label="Study guide sections">
+                <div class="tab-buttons" role="tablist">
+                    <button class="tab-btn" role="tab" aria-selected="true" aria-controls="overview" id="tab-overview" onclick="switchTab('overview')">📚 Overview</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="flashcards" id="tab-flashcards" onclick="switchTab('flashcards')">🎴 Flashcards</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="quiz" id="tab-quiz" onclick="switchTab('quiz')">✅ Quiz</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="comparison" id="tab-comparison" onclick="switchTab('comparison')">📊 Comparison</button>
+                </div>
+            </nav>
+
+            <section id="overview" class="tab-content" role="tabpanel" aria-labelledby="tab-overview" aria-hidden="false">
+                <div class="section">
+                    <h2>1. The Cardiac Cycle – The Heart's "Pump Routine"</h2>
+                    <p>Think of the heart as a two-sided pump working in perfect rhythm to keep blood moving.</p>
+                    
+                    <div class="interactive-heart" role="img" aria-label="Animated heart showing the cardiac cycle phases">
+                        <div>
+                            <div class="heart-animation"></div>
+                            <div class="phase-indicator" id="phaseIndicator" aria-live="polite" aria-atomic="true">Diastole (Filling)</div>
+                        </div>
+                    </div>
+
+                    <h3>Two Main Phases:</h3>
+                    <ul>
+                        <li><strong>Diastole (Relax Phase):</strong> The heart chambers relax and fill with blood.</li>
+                        <li><strong>Systole (Contract Phase):</strong> The chambers contract and pump blood out.</li>
+                    </ul>
+
+                    <h3>Step-by-step Process:</h3>
+                    <ol>
+                        <li>Atria fill and contract, pushing blood into the ventricles.</li>
+                        <li>Ventricles contract, pushing blood out of the heart:
+                            <ul>
+                                <li><strong>Right ventricle</strong> sends blood to the lungs to pick up oxygen</li>
+                                <li><strong>Left ventricle</strong> sends oxygen-rich blood to the rest of the body</li>
+                            </ul>
+                        </li>
+                        <li>Valves, like one-way doors, ensure blood moves forward, not backward.</li>
+                    </ol>
+
+                    <div class="analogy-box" role="complementary" aria-label="Everyday analogy">
+                        <strong>💡 Everyday Analogy:</strong> Think of filling and squeezing a water balloon. When you squeeze (systole), water shoots out. When you release (diastole), the balloon fills again—this repeats with every beat.
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>2. How Heart Failure Develops</h2>
+                    <p>Heart failure doesn't mean the heart stops—it means it's not pumping effectively enough to meet the body's needs. It can happen on the right side, left side, or both.</p>
+
+                    <h3>A. Left-Sided Heart Failure</h3>
+                    <ul>
+                        <li><strong>Cause:</strong> The left ventricle becomes weak or stiff and can't pump blood efficiently to the body.</li>
+                        <li><strong>What happens:</strong>
+                            <ul>
+                                <li>Blood backs up into the lungs</li>
+                                <li>Fluid leaks into lung tissue, causing shortness of breath, especially when lying down or during activity</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="analogy-box" role="complementary" aria-label="Everyday example">
+                        <strong>💡 Everyday Example:</strong> Imagine a garden hose (the left ventricle) that's clogged. Water (blood) can't flow out properly, so it backs up into the supply tank (lungs), causing overflow (fluid buildup).
+                    </div>
+
+                    <h3>B. Right-Sided Heart Failure</h3>
+                    <ul>
+                        <li><strong>Cause:</strong> Often follows left-sided failure, or results from lung disease or high pressure in lung arteries.</li>
+                        <li><strong>What happens:</strong>
+                            <ul>
+                                <li>Blood backs up in the body's veins</li>
+                                <li>Leads to swelling in the feet, ankles, and abdomen</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="analogy-box" role="complementary" aria-label="Everyday example">
+                        <strong>💡 Everyday Example:</strong> Think of traffic jam spillover: if the main road (left side) is blocked, cars (blood) back up into the side streets (body veins).
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>4. Key Takeaways</h2>
+                    <ul>
+                        <li>The heart works as a coordinated pump with two sides</li>
+                        <li>Left failure affects the lungs (back pressure)</li>
+                        <li>Right failure affects the body (fluid buildup)</li>
+                        <li>Both reduce oxygen delivery and energy—leading to tiredness and shortness of breath</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="flashcards" class="tab-content" role="tabpanel" aria-labelledby="tab-flashcards" aria-hidden="true">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">💡 Click or press Enter on cards to flip and test your knowledge!</h2>
+                <div class="flashcard-container">
+                    <div class="flashcard" role="button" tabindex="0" aria-expanded="false" aria-label="Flashcard: What is Diastole? Press Enter to reveal answer" onclick="flipCard(this)" onkeypress="handleKeyPress(event, this)">
+                        <div class="card-front">
+                            <h3>What is Diastole?</h3>
+                            <p>Click or press Enter to reveal answer</p>
+                            <span class="flip-hint" aria-hidden="true">👆 Tap to flip</span>
+                        </div>
+                        <div class="card-back">
+                            <p>The relaxation phase of the cardiac cycle where heart chambers relax and fill with blood.</p>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" role="button" tabindex="0" aria-expanded="false" aria-label="Flashcard: What is Systole? Press Enter to reveal answer" onclick="flipCard(this)" onkeypress="handleKeyPress(event, this)">
+                        <div class="card-front">
+                            <h3>What is Systole?</h3>
+                            <p>Click or press Enter to reveal answer</p>
+                            <span class="flip-hint" aria-hidden="true">👆 Tap to flip</span>
+                        </div>
+                        <div class="card-back">
+                            <p>The contraction phase of the cardiac cycle where heart chambers contract and pump blood out.</p>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" role="button" tabindex="0" aria-expanded="false" aria-label="Flashcard: What does the Right Ventricle do? Press Enter to reveal answer" onclick="flipCard(this)" onkeypress="handleKeyPress(event, this)">
+                        <div class="card-front">
+                            <h3>What does the Right Ventricle do?</h3>
+                            <p>Click or press Enter to reveal answer</p>
+                            <span class="flip-hint" aria-hidden="true">👆 Tap to flip</span>
+                        </div>
+                        <div class="card-back">
+                            <p>Sends blood to the lungs to pick up oxygen (pulmonary circulation).</p>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" role="button" tabindex="0" aria-expanded="false" aria-label="Flashcard: What does the Left Ventricle do? Press Enter to reveal answer" onclick="flipCard(this)" onkeypress="handleKeyPress(event, this)">
+                        <div class="card-front">
+                            <h3>What does the Left Ventricle do?</h3>
+                            <p>Click or press Enter to reveal answer</p>
+                            <span class="flip-hint" aria-hidden="true">👆 Tap to flip</span>
+                        </div>
+                        <div class="card-back">
+                            <p>Sends oxygen-rich blood to the rest of the body (systemic circulation).</p>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" role="button" tabindex="0" aria-expanded="false" aria-label="Flashcard: Left-Sided Heart Failure Effects. Press Enter to reveal answer" onclick="flipCard(this)" onkeypress="handleKeyPress(event, this)">
+                        <div class="card-front">
+                            <h3>Left-Sided Heart Failure Effects</h3>
+                            <p>Click or press Enter to reveal answer</p>
+                            <span class="flip-hint" aria-hidden="true">👆 Tap to flip</span>
+                        </div>
+                        <div class="card-back">
+                            <p>Blood backs up into the lungs, causing fluid buildup, shortness of breath, cough, and fatigue.</p>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" role="button" tabindex="0" aria-expanded="false" aria-label="Flashcard: Right-Sided Heart Failure Effects. Press Enter to reveal answer" onclick="flipCard(this)" onkeypress="handleKeyPress(event, this)">
+                        <div class="card-front">
+                            <h3>Right-Sided Heart Failure Effects</h3>
+                            <p>Click or press Enter to reveal answer</p>
+                            <span class="flip-hint" aria-hidden="true">👆 Tap to flip</span>
+                        </div>
+                        <div class="card-back">
+                            <p>Blood backs up in body veins, causing swelling in legs, ankles, abdomen, and weight gain.</p>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" role="button" tabindex="0" aria-expanded="false" aria-label="Flashcard: What role do valves play? Press Enter to reveal answer" onclick="flipCard(this)" onkeypress="handleKeyPress(event, this)">
+                        <div class="card-front">
+                            <h3>What role do valves play?</h3>
+                            <p>Click or press Enter to reveal answer</p>
+                            <span class="flip-hint" aria-hidden="true">👆 Tap to flip</span>
+                        </div>
+                        <div class="card-back">
+                            <p>Valves act like one-way doors to ensure blood moves forward and doesn't flow backward.</p>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" role="button" tabindex="0" aria-expanded="false" aria-label="Flashcard: Does heart failure mean the heart stops? Press Enter to reveal answer" onclick="flipCard(this)" onkeypress="handleKeyPress(event, this)">
+                        <div class="card-front">
+                            <h3>Does heart failure mean the heart stops?</h3>
+                            <p>Click or press Enter to reveal answer</p>
+                            <span class="flip-hint" aria-hidden="true">👆 Tap to flip</span>
+                        </div>
+                        <div class="card-back">
+                            <p>No! It means the heart isn't pumping effectively enough to meet the body's needs.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="quiz" class="tab-content" role="tabpanel" aria-labelledby="tab-quiz" aria-hidden="true">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">✅ Test Your Knowledge</h2>
+                <div class="quiz-container">
+                    <form id="quizForm" onsubmit="submitQuiz(event)">
+                        <fieldset class="question" data-correct="1">
+                            <legend><h3>1. During which phase does the heart relax and fill with blood?</h3></legend>
+                            <div class="options" role="radiogroup" aria-labelledby="q1-label">
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">C) Shortness of breath</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">D) Weight loss</div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="question" data-correct="1">
+                            <legend><h3>4. Where does blood back up in right-sided heart failure?</h3></legend>
+                            <div class="options" role="radiogroup">
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">A) In the lungs</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">B) In the body's veins</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">C) In the arteries</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">D) In the brain</div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="question" data-correct="3">
+                            <legend><h3>5. What is the function of heart valves?</h3></legend>
+                            <div class="options" role="radiogroup">
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">A) To generate electrical signals</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">B) To pump blood</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">C) To oxygenate blood</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">D) To prevent backward blood flow</div>
+                            </div>
+                        </fieldset>
+
+                        <button type="submit" class="submit-btn" id="submitBtn">Submit Quiz</button>
+                    </form>
+                    <div id="quizResult" role="status" aria-live="polite" aria-atomic="true"></div>
+                </div>
+            </section>
+
+            <section id="comparison" class="tab-content" role="tabpanel" aria-labelledby="tab-comparison" aria-hidden="true">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">📊 Left vs Right Heart Failure Comparison</h2>
+                <table class="comparison-table">
+                    <caption class="sr-only">Comparison of Left-Sided and Right-Sided Heart Failure</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Heart Side</th>
+                            <th scope="col">Main Function</th>
+                            <th scope="col">Failure Result</th>
+                            <th scope="col">Key Symptoms</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Left</th>
+                            <td>Pumps oxygen-rich blood to body</td>
+                            <td>Blood backs up into lungs</td>
+                            <td>Shortness of breath, cough, fatigue</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Right</th>
+                            <td>Pumps blood to lungs for oxygen</td>
+                            <td>Blood backs up in body</td>
+                            <td>Leg/ankle swelling, weight gain, enlarged liver</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="section" style="margin-top: 30px;">
+                    <h2>Memory Tips 🧠</h2>
+                    <ul>
+                        <li><strong>Left = Lungs:</strong> Left-sided failure affects the lungs (both start with 'L')</li>
+                        <li><strong>Right = Rest of body:</strong> Right-sided failure affects the rest of the body (both start with 'R')</li>
+                        <li><strong>Water balloon analogy:</strong> Squeeze (systole) = water out, Release (diastole) = fills up</li>
+                        <li><strong>Clogged hose:</strong> Left failure is like a clogged hose backing up water into the source</li>
+                        <li><strong>Traffic jam:</strong> Right failure is like traffic backing up on side streets</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        let completedSections = {};
+
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+            
+            tabs.forEach(tab => {
+                tab.setAttribute('aria-hidden', 'true');
+            });
+            
+            buttons.forEach(btn => {
+                btn.setAttribute('aria-selected', 'false');
+            });
+            
+            const selectedTab = document.getElementById(tabName);
+            const selectedButton = document.getElementById('tab-' + tabName);
+            
+            selectedTab.setAttribute('aria-hidden', 'false');
+            selectedButton.setAttribute('aria-selected', 'true');
+            
+            completedSections[tabName] = true;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = 4;
+            const completed = Object.keys(completedSections).length;
+            const percentage = (completed / total) * 100;
+            
+            const progressFill = document.getElementById('progressFill');
+            const progressBar = progressFill.parentElement;
+            const progressLabel = document.getElementById('progressLabel');
+            
+            progressFill.style.width = percentage + '%';
+            progressBar.setAttribute('aria-valuenow', percentage);
+            progressLabel.textContent = `Progress: ${percentage}% complete (${completed} of ${total} sections visited)`;
+        }
+
+        function flipCard(card) {
+            const isExpanded = card.getAttribute('aria-expanded') === 'true';
+            card.setAttribute('aria-expanded', !isExpanded);
+            
+            if (!isExpanded) {
+                card.setAttribute('aria-label', card.querySelector('.card-back p').textContent + '. Press Enter to flip back');
+            } else {
+                const question = card.querySelector('.card-front h3').textContent;
+                card.setAttribute('aria-label', 'Flashcard: ' + question + '. Press Enter to reveal answer');
+            }
+        }
+
+        function handleKeyPress(event, element) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                flipCard(element);
+            }
+        }
+
+        function selectOption(option) {
+            const options = option.parentElement.children;
+            for (let opt of options) {
+                opt.setAttribute('aria-checked', 'false');
+            }
+            option.setAttribute('aria-checked', 'true');
+        }
+
+        function handleOptionKeyPress(event, element) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                selectOption(element);
+            }
+        }
+
+        function submitQuiz(event) {
+            event.preventDefault();
+            
+            const questions = document.querySelectorAll('.question');
+            let correct = 0;
+            let answered = 0;
+
+            questions.forEach(question => {
+                const correctIndex = parseInt(question.dataset.correct);
+                const options = question.querySelectorAll('.option');
+                let selectedIndex = -1;
+
+                options.forEach((option, index) => {
+                    if (option.getAttribute('aria-checked') === 'true') {
+                        selectedIndex = index;
+                        answered++;
+                    }
+                });
+
+                if (selectedIndex !== -1) {
+                    if (selectedIndex === correctIndex) {
+                        options[selectedIndex].classList.add('correct');
+                        correct++;
+                    } else {
+                        options[selectedIndex].classList.add('incorrect');
+                        options[correctIndex].classList.add('correct');
+                    }
+                }
+            });
+
+            const resultDiv = document.getElementById('quizResult');
+            const percentage = (correct / questions.length) * 100;
+            
+            if (answered < questions.length) {
+                resultDiv.innerHTML = '<div class="result fail">⚠️ Please answer all questions before submitting!</div>';
+                return;
+            }
+
+            const resultClass = percentage >= 70 ? 'pass' : 'fail';
+            const resultEmoji = percentage >= 70 ? '🎉' : '📚';
+            const resultText = percentage >= 70 ? 'Great job!' : 'Keep studying!';
+            
+            resultDiv.innerHTML = `<div class="result ${resultClass}">${resultEmoji} You scored ${correct} out of ${questions.length} (${percentage.toFixed(0)}%) - ${resultText}</div>`;
+            
+            document.getElementById('submitBtn').disabled = true;
+            completedSections['quiz'] = true;
+            updateProgress();
+            
+            // Announce result to screen readers
+            resultDiv.focus();
+        }
+
+        let phase = 'diastole';
+        setInterval(() => {
+            const indicator = document.getElementById('phaseIndicator');
+            phase = phase === 'diastole' ? 'systole' : 'diastole';
+            indicator.textContent = phase === 'diastole' ? 'Diastole (Filling)' : 'Systole (Contracting)';
+        }, 1500);
+
+        completedSections['overview'] = true;
+        updateProgress();
+    </script>
+</body>
+</html> this)">A) Systole</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">B) Diastole</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">C) Contraction</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">D) Ejection</div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="question" data-correct="0">
+                            <legend><h3>2. Which ventricle pumps oxygen-rich blood to the body?</h3></legend>
+                            <div class="options" role="radiogroup">
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">A) Left ventricle</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">B) Right ventricle</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">C) Both ventricles equally</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">D) Neither ventricle</div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="question" data-correct="2">
+                            <legend><h3>3. What is the primary symptom of left-sided heart failure?</h3></legend>
+                            <div class="options" role="radiogroup">
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">A) Swollen ankles</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event, this)">B) Enlarged liver</div>
+                                <div class="option" role="radio" tabindex="0" aria-checked="false" onclick="selectOption(this)" onkeypress="handleOptionKeyPress(event,
